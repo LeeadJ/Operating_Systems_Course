@@ -14,8 +14,10 @@ void handle_sigint();
 int main() {
 	int i;
 	char *argv[10];
-	char command[1024];
+	char *command = (char *)malloc(1024);
 	char *token;
+    // int file_descriptor[2], status;
+    // pid_t pid;
 
     // Register the signal handler
     signal(SIGINT, handle_sigint);
@@ -25,7 +27,14 @@ int main() {
 	    printf("hello: ");
         fflush(stdout);
 	    fgets(command, 1024, stdin);
+        command = (char *)realloc(command, strlen(command));
 	    command[strlen(command) - 1] = '\0'; // replace \n with \0
+        // printf("size of command: %ld\n ", strlen(command));
+        // printf("%s", command);
+        if(!strcmp(command, "exit"))
+        {
+            break;
+        }
 
 	    /* parse command line */
 	    i = 0;
