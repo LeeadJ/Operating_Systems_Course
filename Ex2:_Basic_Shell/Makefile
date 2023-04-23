@@ -3,8 +3,8 @@ CFLAGS=-Wall -Wextra -Werror -pedantic
 
 all: shell
 
-shell: stshell.c 
-	$(CC) $(CFLAGS) -o shell stshell.c 
+shell: shell2.c 
+	$(CC) $(CFLAGS) -o shell shell2.c 
 
 clean:
 	rm -f shell
