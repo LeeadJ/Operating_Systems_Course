@@ -1,0 +1,6 @@
+total 64
+-rw-r--r-- 1 leeadj leeadj     0 Apr 29 21:30 file
+-rw-rw-r-- 1 leeadj leeadj   134 Apr 29 21:29 Makefile
+-rwxrwxr-x 1 leeadj leeadj 17976 Apr 29 21:29 shell
+-rw-rw-r-- 1 leeadj leeadj  7335 Apr 24 14:58 stshell.c
+-rw-rw-r-- 1 leeadj leeadj 32301 Apr 24 14:58 task2_v1.1.pdf
