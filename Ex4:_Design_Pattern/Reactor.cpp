@@ -34,8 +34,26 @@ void Reactor::startReactor()
 }
 
 // Stoping the Reactor
-void Reactor::stopReactor() {
+void Reactor::stopReactor() 
+{
     shouldStop = true;
     // wait for the thread to complete before returning
     pthread_join(reactorThread, nullptr);
+}
+
+// Adding file descriptors to the eventHandler map
+void Reactor::addFD(int fd, handler_t handler) 
+{
+    eventHandlers[fd] = std::move(handler);
+}
+
+// 
+void Reactor::waitFor() const 
+{
+    //wait for the completion of the reactorThread which represents the thread we want to join.
+    int result = pthread_join(reactorThread, nullptr);
+    if(result != 0)
+    {
+        perror("--ERROR-- pthread_join failed (in -> waitFor())");
+    }
 }
