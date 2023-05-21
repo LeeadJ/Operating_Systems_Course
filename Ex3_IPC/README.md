@@ -40,9 +40,6 @@ stnc -c IP PORT -p <type> <param>
 
 1. Clone the repository:
 
-https://github.com/Arieh-code/OS-Ex3.git
-
-
 2. Build the project:
 
 cd stnc
