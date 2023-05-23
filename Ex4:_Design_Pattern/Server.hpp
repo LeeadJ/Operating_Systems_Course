@@ -14,6 +14,10 @@ private:
     Reactor reactor;
     int serverSocket;
     int server_fd;
+
+    //Function declartaions
+    int creatServerSocket(int port);
+    int acceptConnection(int serverSocket);
 };
 
 #endif // SERVER_HPP
