@@ -26,14 +26,7 @@ void Server::start() {
         return;
     }
 
-    reactor.addFD(serverSocket, [this]() {
-        // Handle incoming connection
-        int clientSocket = acceptConnection(serverSocket);
-        if (clientSocket != -1) {
-            // Handle client request
-            std::cout << "Received a new client connection." << std::endl;
-        }
-    });
+    reactor.addFD(serverSocket, [=]() { this->acceptConnection(serverSocket); });
 
     reactor.startReactor();
     reactor.waitFor();
@@ -94,8 +87,9 @@ int Server::acceptConnection(int serverSocket)
 
     std::cout << "New client connected: IP - " << connectedIP << ", Port - " << connectedPort << std::endl;
 
-    reactor.addFD(clientSocket, [clientSocket, connectedIP, connectedPort]() {
-    Server::echo(clientSocket, connectedIP, connectedPort);
+    reactor.addFD(clientSocket, [=]() 
+    {
+        Server::echo(clientSocket, connectedIP, connectedPort);
     });
 
     return clientSocket;
