@@ -13,11 +13,11 @@ public:
 private:
     Reactor reactor;
     int serverSocket;
-    int server_fd;
 
     //Function declartaions
-    int creatServerSocket(int port);
+    int createServerSocket(int port);
     int acceptConnection(int serverSocket);
+    static void echo(int socket, const char* ip, int port);
 };
 
 #endif // SERVER_HPP
