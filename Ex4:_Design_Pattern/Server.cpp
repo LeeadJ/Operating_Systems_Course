@@ -5,6 +5,8 @@
 #include <arpa/inet.h>
 #include <stdexcept>
 
+#define PORT_NUM 9034
+
 // constructor:
 Server::Server() : reactor(), serverSocket(-1) {}
 
@@ -18,7 +20,7 @@ Server::~Server()
 // implementation for start():
 void Server::start() {
     // Code to start the server using the reactor
-    serverSocket = createServerSocket(9034);
+    serverSocket = createServerSocket(PORT_NUM);
     if (serverSocket == -1) {
         std::cerr << "Failed to create server socket." << std::endl;
         return;
