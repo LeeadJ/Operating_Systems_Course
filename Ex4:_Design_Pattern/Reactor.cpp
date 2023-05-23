@@ -1,4 +1,5 @@
 #include "Reactor.hpp"
+#include <map>
 
 // constructor
 Reactor::Reactor() : shouldStop(false), reactorThread(pthread_t()) {}
