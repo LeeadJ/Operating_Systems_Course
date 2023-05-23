@@ -5,18 +5,52 @@
 #include <arpa/inet.h>
 #include <stdexcept>
 
-// constructor
+// constructor:
 Server::Server() : reactor(), serverSocket(-1) {}
 
-//destructor
+//destructor:
 Server::~Server()
 {
     reactor.stopReactor();
     close(serverSocket);
 }
-// Placeholder implementation for createServerSocket()
-int Server::createServerSocket(int port) {
-    int sereverSocket = socket(AF_INET, SOCK_STREAM, 0);
+
+// implementation for start():
+void Server::start() {
+    // Code to start the server using the reactor
+    serverSocket = createServerSocket(9034);
+    if (serverSocket == -1) {
+        std::cerr << "Failed to create server socket." << std::endl;
+        return;
+    }
+
+    reactor.addFD(serverSocket, [this]() {
+        // Handle incoming connection
+        int clientSocket = acceptConnection(serverSocket);
+        if (clientSocket != -1) {
+            // Handle client request
+            std::cout << "Received a new client connection." << std::endl;
+        }
+    });
+
+    reactor.startReactor();
+    reactor.waitFor();
+}
+
+//implementation for stop():
+void Server::stop() {
+    // Code to stop the server
+    reactor.stopReactor();
+    if (serverSocket != -1) {
+        close(serverSocket);
+        serverSocket = -1;
+    }
+}
+
+// implementation for createServerSocket():
+int Server::createServerSocket(int port) 
+{
+    int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if(serverSocket < 0)
     {
         throw std::runtime_error("--ERROR--Socket opening failed");
@@ -24,7 +58,6 @@ int Server::createServerSocket(int port) {
 
     sockaddr_in address{};
     address.sin_family  = AF_INET;
-    address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
 
@@ -40,7 +73,7 @@ int Server::createServerSocket(int port) {
     return serverSocket; // Placeholder return value
 }
 
-// implementation for acceptConnection()
+// implementation for acceptConnection():
 int Server::acceptConnection(int serverSocket) 
 {
     struct sockaddr_in clientAddress{};
@@ -60,14 +93,15 @@ int Server::acceptConnection(int serverSocket)
     std::cout << "New client connected: IP - " << connectedIP << ", Port - " << connectedPort << std::endl;
 
     reactor.addFD(clientSocket, [clientSocket, connectedIP, connectedPort]() {
-        Server::echo(clientSocket, connectedIP, connectedPort);
+    Server::echo(clientSocket, connectedIP, connectedPort);
     });
 
     return clientSocket;
 }
 
-// implementation for echo()
-void Server::echo(int socket, const char* ip, int port) {
+// implementation for echo():
+void Server::echo(int socket, const char* ip, int port) 
+{
     // define buffer size
     constexpr int bufferSize = 1024;
     char buffer[bufferSize];
