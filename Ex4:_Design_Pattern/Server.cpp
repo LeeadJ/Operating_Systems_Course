@@ -39,3 +39,48 @@ int Server::createServerSocket(int port) {
     }
     return serverSocket; // Placeholder return value
 }
+
+// implementation for acceptConnection()
+int Server::acceptConnection(int serverSocket) 
+{
+    struct sockaddr_in clientAddress{};
+    socklen_t clientAddressLength = sizeof(clientAddress);
+
+    int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLength);
+    if (clientSocket < 0) 
+    {
+        perror("--ERROR--Accept failed");
+        reactor.stopReactor();
+        return -1;
+    }
+
+    char* connectedIP = inet_ntoa(clientAddress.sin_addr);
+    int connectedPort = ntohs(clientAddress.sin_port);
+
+    std::cout << "New client connected: IP - " << connectedIP << ", Port - " << connectedPort << std::endl;
+
+    reactor.addFD(clientSocket, [clientSocket, connectedIP, connectedPort]() {
+        Server::echo(clientSocket, connectedIP, connectedPort);
+    });
+
+    return clientSocket;
+}
+
+// implementation for echo()
+void Server::echo(int socket, const char* ip, int port) {
+    // define buffer size
+    constexpr int bufferSize = 1024;
+    char buffer[bufferSize];
+
+    ssize_t bytesRead = read(socket, buffer, bufferSize - 1);
+    if (bytesRead <= 0) {
+        std::cout << "Client disconnected: IP - " << ip << ", Port - " << port << std::endl;
+        close(socket);
+        return;
+    }
+
+    buffer[bytesRead] = '\0';
+    std::string message(buffer);
+
+    std::cout << "Message from client: IP - " << ip << ", Port - " << port << ": " << message << std::endl;
+}
