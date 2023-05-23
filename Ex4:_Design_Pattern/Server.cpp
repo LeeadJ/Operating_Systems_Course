@@ -5,7 +5,15 @@
 #include <arpa/inet.h>
 #include <stdexcept>
 
+// constructor
+Server::Server() : reactor(), serverSocket(-1) {}
 
+//destructor
+Server::~Server()
+{
+    reactor.stopReactor();
+    close(serverSocket);
+}
 // Placeholder implementation for createServerSocket()
 int Server::createServerSocket(int port) {
     int sereverSocket = socket(AF_INET, SOCK_STREAM, 0);
