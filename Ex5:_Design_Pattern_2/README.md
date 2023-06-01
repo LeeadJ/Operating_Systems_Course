@@ -1,6 +1,8 @@
-# st_pipeline
+# Ex5: Design Pattern 2
 
 This repository contains an implementation of a multi-threaded pipeline using active objects and a queue. The pipeline processes a series of numbers, performs calculations, and checks for prime numbers in a parallel manner.
+
+Due Date: June 4, 2023
 
 ## Overview
 
