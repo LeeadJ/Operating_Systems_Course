@@ -83,3 +83,21 @@ To demonstrate the functionality of the program, let's consider an example execu
 ![image](https://github.com/LeeadJ/Operating_Systems_Course/assets/77110578/4e8be0bb-2daf-41ad-a5bf-9867b919a1d0)
 
 
+Explanation:
+
+1. The first Active Object (AO) initializes the random generator with the given seed (or a generated seed if not provided) and generates two 6-digit random numbers: 325627 and 325638.
+2. The first AO transfers the first number, 325627, to the second AO after a brief delay.
+3. The second AO receives the number, prints it, checks if it is prime (which it is), and prints "true".
+4. The second AO adds 11 to the number, resulting in 325638, and transfers it to the third AO after a delay.
+5. The third AO receives the number, prints it, checks if it is prime (which it is not), and prints "false".
+6. The third AO subtracts 13 from the number, resulting in 325625, and transfers it to the fourth AO after a delay.
+7. The fourth AO receives the number, prints it, adds 2 to it, resulting in 325627, and prints the new number.
+8. The fourth AO transfers the modified number back to the first AO after a delay.
+9. The first AO receives the modified number, prints it, checks if it is prime (which it is), and prints "true".
+10. The program completes execution after processing two tasks.
+
+Please note that the output may vary due to the random number generation, but the sequence of operations and transformations will remain the same.
+
+This example demonstrates the pipeline flow and the interaction between the Active Objects in the program.
+
+
